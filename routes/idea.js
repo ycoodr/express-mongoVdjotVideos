@@ -7,10 +7,12 @@ mongoose.connect('mongodb://localhost/vidjot-dev')
 .then(() => console.log('MongoDb connected...'))
 .catch(err => console.log(err));
 
+const {ensureAuthenticated} = require('../helpers/auth');
+
 require('../models/idea');
 const Idea = mongoose.model('ideas');
 
-router.get('/', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
     Idea.find({}).lean()
     .sort({date: 'desc'})
     .then(ideas => {
@@ -19,11 +21,11 @@ router.get('/', (req, res) => {
     
 });
 
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuthenticated, (req, res) => {
     res.render('ideas/add');
 });
 
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     Idea.findOne({
         _id: req.params.id
     }).lean()
@@ -33,7 +35,7 @@ router.get('/edit/:id', (req, res) => {
     
 });
 
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
     // console.log(req.body);
     // res.send('ok');
     let errors = [];
@@ -67,7 +69,7 @@ router.post('/', (req, res) => {
     }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', ensureAuthenticated, (req, res) => {
     Idea.findOne({
         _id: req.params.id
     })
@@ -83,7 +85,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
     Idea.remove({_id: req.params.id}).
     then(() => {
         req.flash('success_msg', 'Video idea removed');
