@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const methodOverride = require('method-override');
 const path = require('path');
 const flash = require('connect-flash');
@@ -10,6 +11,8 @@ const port = 5000;
 
 const ideas = require('./routes/idea');
 const users = require('./routes/users');
+
+require('./config/passport')(passport);
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
