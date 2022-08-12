@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const db = require('../config/database');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/vidjot-dev')
+mongoose.connect(db.mongoURI)
 .then(() => console.log('MongoDb connected...'))
 .catch(err => console.log(err));
 

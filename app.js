@@ -7,7 +7,7 @@ const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 const ideas = require('./routes/idea');
 const users = require('./routes/users');
